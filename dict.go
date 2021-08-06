@@ -43,6 +43,16 @@ func (d *Dictionary) Value() interface{} {
 	return out
 }
 
+// Size returns the size of the dict in bytes
+func (d *Dictionary) Size() int {
+	data, err := Marshal(d)
+	if err != nil {
+		return 0
+	}
+
+	return len(data)
+}
+
 func (d *Dictionary) Get(key []byte) (Value, bool) {
 	for i, k := range d.keys {
 		if bytes.Compare(k, key) == 0 {

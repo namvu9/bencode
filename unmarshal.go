@@ -191,6 +191,23 @@ func Unmarshal(data []byte, v *Value) error {
 	return u.Unmarshal(v)
 }
 
+// TODO: TEST
+func UnmarshalDict(data []byte) (*Dictionary, error) {
+	var v Value
+	u := Unmarshaler{r: bytes.NewReader(data)}
+	err := u.Unmarshal(&v)
+	if err != nil {
+		return nil, err
+	}
+	
+	d, ok := v.ToDict()
+	if !ok {
+		return nil, fmt.Errorf("malformed data")
+	}
+
+	return d, nil
+}
+
 func NewUnmarshaler(r io.Reader) *Unmarshaler {
 	return &Unmarshaler{r: bufio.NewReader(r)}
 }
